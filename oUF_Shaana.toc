@@ -1,0 +1,12 @@
+## Interface: 50100
+## Title: oUF_Shaana
+## Author: Shaana
+## Notes: Shaana's oUF layout
+## Dependencies: oUF
+
+config.lua
+
+core\scale.lua
+#core\tags.lua
+#core\core.lua
+#core\style.lua
