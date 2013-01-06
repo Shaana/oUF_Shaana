@@ -6,7 +6,10 @@
 
 config.lua
 
-core\scale.lua
+core\layout.lua #needs to be 2nd
+
+#core\scale.lua
+
 #core\tags.lua
 #core\core.lua
 #core\style.lua

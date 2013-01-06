@@ -1,6 +1,7 @@
 local addon, namespace = ...
 
 local config = namespace.config
+local layout = namespace.layout
 
 local core = {}
 namespace.core = core
@@ -84,25 +85,24 @@ namespace.core.style = style
 function style.new(self, unit)
 	local object = {}
 	setmetatable(object, self)
-	
+	--TODO, add some global register of all created objects. like .__objects
 	object.unit = unit
+	object.style_name = "oUF_Shaana_"..unit --might be more efficent to do some table magic here
 	return object
 end
 
 function style.apply(self)
 	if self.applied then return end
-	
+		
 	--check the config for an entry
 	--take default if there is no config given
-	local config = config[self.unit] or config["default"] --TODO test
+	local config = config[self.unit] or config["default"] --TODO test, pretty sure or doesnt work as intended,
+	-- i want it to take the 2nd one if the first config doesnt exist.
+
+	oUF:RegisterStyle(self.style_name, layout[config.layout] or layout["default"])
+    oUF:SetActiveStyle(self.style_name)
+    oUF:Spawn(self.unit,self.style_name)
 	
-	--create frames (using layout)
-	--if there is no layout given in the conifg, we take default - as always
-	
-	
-	
-	
-	--combine with oUF, load the config
 	self.applied = true
 end
 
