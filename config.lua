@@ -4,6 +4,25 @@ local addon, namespace = ...
 local config = {}
 namespace.config = config
 
+
+--[[ Valid keys
+-only for config["core"]
+ui_scale
+unit
+
+-for rest
+__index
+font
+height
+width
+background_texture
+layout
+
+
+--]]
+
+
+
 --Note: If you want to use inheritance then add
 --["__index"] = table,
 --
@@ -19,8 +38,9 @@ end
 --TODO if ui_scale = nil.. then use auto scale etc.
 
 config["core"] = {
-	["ui_scale"] = find_ui_scale(), --0.8533, --0.7111,
-	["unit"] = {"player", "target", "tarettarget", "focus", "focustarget", "party", "partypet", "raid"}, -- units we want to display, make sure to add a config further down.
+	["ui_scale"] = 0.7111, -- find_ui_scale(), --0.8533, --0.7111,
+	["use_ui_scale"] = true, --maybe change code. if ui_scale entry exists, use it, otherwise dont
+	["unit"] = {"player", "target"}, -- units we want to display, make sure to add a config further down. "target", "tarettarget", "focus", "focustarget", "party", "partypet", "raid"
 	["font"] = "my_font",
 }
 
@@ -33,23 +53,34 @@ config["default"] = {
 	--[""] = nil,
 	--["font"] = ,inherit
 	["background_texture"] = "Interface\\AddOns\\oUF_Shaana\\media\\armory",
-
+	["status_bar_texture"] = "Interface\\AddOns\\oUF_Shaana\\media\\armory",
+	["status_bar_color"] = {0.2,0.2,0.3},
+	["frequentUpdates"] = true,
+	["anchor"] = {"CENTER", UIParent, "CENTER",0,0},
+	["menu"] = "auto",	
+	
 }
 
 config["player"] = {
 	["__index"] = config["default"],
 	["layout"] = "player",
-	["width"] = 100,
+	["width"] = 180,
+	["height"] = 32,
+	["anchor"] = {"CENTER", UIParent, "CENTER", 0, 200},
 }
 
+--[[
 config["target"] = {
 	["__index"] = config["default"],
 
 }
+--]]
 
 config["frames_raid"] = {
 	["__index"] = config["default"],
 }
+
+
 
 --enable inheritance
 --see documentation on lua metatables for details
@@ -57,4 +88,5 @@ for k,_ in pairs(config) do
 	setmetatable(config[k], config[k])
 end
 
-print(config["default"].ui_scale)
+--make sure the key values are in the config
+assert(config.core.unit)

@@ -10,9 +10,10 @@ local function main()
 	local units = config.core.unit
 	
 	--create the styles
-	for v in ipairs(units) do --replace with #
-		local tmp = style:new(v)
-		tmp:apply()	
+	for i = 1, #units do
+		style:new(units[i]):apply()
 	end
 	
 end
+
+main()

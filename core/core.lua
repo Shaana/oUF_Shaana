@@ -6,6 +6,7 @@ local layout = namespace.layout
 local core = {}
 namespace.core = core
 
+
 --TODO test with carbagecollect and crap
 local function memoize (f)
 	local mem = {} 			-- memoizing table
@@ -25,36 +26,7 @@ end
 --local loadstring = memoize(loadstring)
 
 
---- the unit class
-local unit = {}
-unit.__index = unit
-
---save it for further use
-namespace.core.unit = unit
-
-
---[[
-name
-guid -- http://www.wowwiki.com/API_UnitGUID
-class
-level
-race
-faction
-buff/debuff
-creature_type/create_family
-health/max/current
-power/max/current
-
---]]
-
-
-function unit.new(self)
-
-	local object = {}	--the new unit object
-	setmetatable(object, self)
-end
-
-
+---------------
 --[[
   --backdrop table
   local backdrop_tab = {
@@ -92,16 +64,24 @@ function style.new(self, unit)
 end
 
 function style.apply(self)
+	print("apply")
 	if self.applied then return end
-		
+
 	--check the config for an entry
 	--take default if there is no config given
 	local config = config[self.unit] or config["default"] --TODO test, pretty sure or doesnt work as intended,
 	-- i want it to take the 2nd one if the first config doesnt exist.
-
-	oUF:RegisterStyle(self.style_name, layout[config.layout] or layout["default"])
+	lay_temp = layout[config.layout] or layout["default"]
+	print(lay_temp)
+	print(layout[config.layout])
+	print(layout["default"])
+	
+	print(self.unit)
+	print(self.style_name)
+	
+	oUF:RegisterStyle(self.style_name, function(self) layout[config.layout](self, config) end)
     oUF:SetActiveStyle(self.style_name)
-    oUF:Spawn(self.unit,self.style_name)
+    oUF:Spawn(self.unit, self.style_name)
 	
 	self.applied = true
 end

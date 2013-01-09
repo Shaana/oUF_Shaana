@@ -6,10 +6,8 @@
 
 config.lua
 
-core\layout.lua #needs to be 2nd
+core\layout.lua
+core\core.lua
 
-#core\scale.lua
+oUF_Shaana.lua
 
-#core\tags.lua
-#core\core.lua
-#core\style.lua
