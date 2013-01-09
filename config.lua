@@ -41,6 +41,21 @@ config["core"] = {
 	["ui_scale"] = 0.7111, -- find_ui_scale(), --0.8533, --0.7111,
 	["use_ui_scale"] = true, --maybe change code. if ui_scale entry exists, use it, otherwise dont
 	["unit"] = {"player", "target"}, -- units we want to display, make sure to add a config further down. "target", "tarettarget", "focus", "focustarget", "party", "partypet", "raid"
+	["header"] = {nil, nil, "raid party",
+					"showParty", true,
+					"yOffset", -40,
+					"xOffset", -30,
+					"maxColums", 2,
+					"unitsPerColumn", 2,
+					"columnAnchorPoint", "LEFT",
+					"columnSpacing", 15,
+					
+					"oUF-initialConfigFunction", [[
+					self:SetWidth(20)
+					self:SetHeight(25)
+					]],
+
+					},
 	["font"] = "my_font",
 }
 
@@ -89,4 +104,8 @@ for k,_ in pairs(config) do
 end
 
 --make sure the key values are in the config
+assert(config.core)
 assert(config.core.unit)
+assert(config.default)
+assert(config.default.height)
+assert(config.default.width)

@@ -69,9 +69,17 @@ layout["default"] = function(self, config)
 		--health_bar.frequentUpdates = config.frequentUpdates or false --oUF option
 		health_bar.colorClass = true
 		self.Health = health_bar
+		
 		--self.Health.bg = health_bar_bg
 		--power bar
-			
+		
+		--menu
+		self.menu = namespace.menu_func
+		
+		--self:SetAttribute("*type2", "menu") --any right click with modifieres. For example: shift-right_click 
+		self:SetScript("OnEnter", UnitFrame_OnEnter)
+		self:SetScript("OnLeave", UnitFrame_OnLeave)
+		self:RegisterForClicks("AnyUp")
 	end
 	
 layout["player"] = function(self, config)

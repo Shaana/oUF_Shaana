@@ -6,6 +6,8 @@
 
 config.lua
 
+core\menu.lua
+
 core\layout.lua
 core\core.lua
 

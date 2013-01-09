@@ -52,7 +52,7 @@ end
 
 local style = {}
 style.__index = style
-namespace.core.style = style
+namespace.core.style = style --TODO move to like namespace.class.style? or keep namespace.[file_name].[whatever]
 
 function style.new(self, unit)
 	local object = {}
