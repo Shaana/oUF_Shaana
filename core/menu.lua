@@ -7,10 +7,11 @@ namespace.menu = menu
 
 local dropdown = CreateFrame("Frame", addon.."_Dropdown", UIParent, "UIDropDownMenuTemplate")
 
-function namespace:menu_func()
+function menu.show(self)
 	dropdown:SetParent(self)
-	return ToggleDropDownMenu(1, nil, dropdown, "cursor")
+	ToggleDropDownMenu(1, nil, dropdown, "cursor",0,0)
 end
+
 
 menu["auto"] = {}
 

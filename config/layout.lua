@@ -3,6 +3,7 @@ local addon, namespace = ...
 
 local layout = {}
 namespace.layout = layout
+local menu = namespace.menu
 
 --[[basic design
 
@@ -43,22 +44,40 @@ layout["default"] = function(self, config)
 		--hp bar
 		print("create_default")
 		
-		--WHY ?
-		self:SetSize(config.width, config.height)
+		--this is the 'parent' frame, this is also used to target players
+		--therefor we want this as big as all bars/borders together
+		self:SetSize(config.width, config.height) --TODO make bigger
 		self:SetPoint(unpack(config.anchor))
 		
 		
-		local health_bar = CreateFrame("StatusBar", nil, self) --maybe change to UIParent
+		self:RegisterForClicks("AnyUp") --needed to make menus working
+		self:SetAttribute("*type2", "menu") --only show menu when left clicking
+		self.menu = menu.show
+		
+		
+		--basically makes you a nice tooltip, etc.
+		self:SetScript("OnEnter", UnitFrame_OnEnter)
+		self:SetScript("OnLeave", UnitFrame_OnLeave)
+		
+		local health_bar = CreateFrame("StatusBar", "da_shaana_bar", self) --maybe change to UIParent
 		health_bar:SetStatusBarTexture(config.status_bar_texture)
 		health_bar:SetHeight(config.height) --replace with pp core functions --> might be a problem though with file loading order
 		health_bar:SetWidth(config.width) --replace with pp core functions
 		--health_bar:SetStatusBarColor(unpack(config.status_bar_color))
 		--health_bar:SetPoint(unpack(config.anchor))
-		health_bar:SetPoint("CENTER",0,0)
+		health_bar:SetPoint("CENTER",0,0) --TODO anchor to self, prob topleft corner
 
 		local health_bar_bg = health_bar:CreateTexture(nil, "BACKGROUND")
 		health_bar_bg:SetTexture(config.status_bar_texture)
 		health_bar_bg:SetAllPoints(health_bar)
+		
+		local name = health_bar:CreateFontString(nil, "OVERLAY")
+	    name:SetFont("Interface\\AddOns\\oUF_Shaana\\media\\ExpresswayRg.ttf", 16, "THINOUTLINE")
+	    name:SetShadowColor(0,0,0,0.5)
+	    name:SetShadowOffset(0,-0)
+	    name:SetPoint("LEFT", health_bar, "LEFT", 2, 0)
+	    name:SetJustifyH("LEFT")
+		self:Tag(name, "[name]")		
 		
 		--[[
 		local temp = CreateFrame("Frame", nil, UIParent)
@@ -74,6 +93,7 @@ layout["default"] = function(self, config)
 		
 		--health_bar.frequentUpdates = config.frequentUpdates or false --oUF option
 		health_bar.colorClass = true
+		health_bar.colorHealth = true
 		self.Health = health_bar
 		--[[
 		--self.Health.bg = health_bar_bg

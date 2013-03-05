@@ -8,10 +8,12 @@ config\config.lua
 
 core\menu.lua
 
+
+config\tags.lua
 config\layout.lua
 core\core.lua
 
-config\tags.lua
+
 
 oUF_Shaana.lua
 

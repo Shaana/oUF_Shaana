@@ -21,8 +21,6 @@ local function main()
 	
 end
 
-main()
-
 
   --backdrop table
   local backdrop_tab = {
@@ -53,6 +51,17 @@ local function gen_hpbar(self)
     s:SetHeight(self.height)
     s:SetWidth(self.width)
     s:SetPoint("CENTER",0,0)
+    
+    local h = CreateFrame("Frame", nil, s)
+    h:SetFrameLevel(0)
+    h:SetPoint("TOPLEFT",-5,5)
+    h:SetPoint("BOTTOMRIGHT",5,-5)
+    gen_backdrop(h)
+    
+    --bg
+    local b = s:CreateTexture(nil, "BACKGROUND")
+    b:SetTexture("Interface\\AddOns\\oUF_Simple\\media\\statusbar2")
+    b:SetAllPoints(s)
     
 	--[[
     --debuff highlight
@@ -109,6 +118,7 @@ local function create_target_style(self)
     --self.Power.bg.multiplier = 0.3
 
 end
+main()
 --[[
 oUF:RegisterStyle("oUF_shaana_player", create_player_style)
 oUF:SetActiveStyle("oUF_shaana_player")
