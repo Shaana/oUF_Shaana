@@ -4,12 +4,14 @@
 ## Notes: Shaana's oUF layout
 ## Dependencies: oUF
 
-config.lua
+config\config.lua
 
 core\menu.lua
 
-core\layout.lua
+config\layout.lua
 core\core.lua
+
+config\tags.lua
 
 oUF_Shaana.lua
 

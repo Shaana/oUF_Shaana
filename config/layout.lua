@@ -43,12 +43,18 @@ layout["default"] = function(self, config)
 		--hp bar
 		print("create_default")
 		
+		--WHY ?
+		self:SetSize(config.width, config.height)
+		self:SetPoint(unpack(config.anchor))
+		
+		
 		local health_bar = CreateFrame("StatusBar", nil, self) --maybe change to UIParent
 		health_bar:SetStatusBarTexture(config.status_bar_texture)
 		health_bar:SetHeight(config.height) --replace with pp core functions --> might be a problem though with file loading order
 		health_bar:SetWidth(config.width) --replace with pp core functions
 		--health_bar:SetStatusBarColor(unpack(config.status_bar_color))
-		health_bar:SetPoint(unpack(config.anchor))
+		--health_bar:SetPoint(unpack(config.anchor))
+		health_bar:SetPoint("CENTER",0,0)
 
 		local health_bar_bg = health_bar:CreateTexture(nil, "BACKGROUND")
 		health_bar_bg:SetTexture(config.status_bar_texture)
@@ -69,7 +75,7 @@ layout["default"] = function(self, config)
 		--health_bar.frequentUpdates = config.frequentUpdates or false --oUF option
 		health_bar.colorClass = true
 		self.Health = health_bar
-		
+		--[[
 		--self.Health.bg = health_bar_bg
 		--power bar
 		
@@ -80,6 +86,7 @@ layout["default"] = function(self, config)
 		self:SetScript("OnEnter", UnitFrame_OnEnter)
 		self:SetScript("OnLeave", UnitFrame_OnLeave)
 		self:RegisterForClicks("AnyUp")
+		--]]
 	end
 	
 layout["player"] = function(self, config)
