@@ -1,19 +1,18 @@
-## Interface: 50100
+## Interface: 60000
 ## Title: oUF_Shaana
 ## Author: Shaana
 ## Notes: Shaana's oUF layout
-## Dependencies: oUF
+## Dependencies: oUF, sCore
 
 config\config.lua
 
-core\menu.lua
-
+#core\menu.lua
 
 config\tags.lua
 config\layout.lua
-core\core.lua
 
 
+core.lua
 
 oUF_Shaana.lua
 

@@ -5,7 +5,6 @@ local core = namespace.core
 local style = core.style --style class
 
 
-
 local function main()
 	local units = config.core.unit
 	
@@ -22,27 +21,8 @@ local function main()
 end
 
 
-  --backdrop table
-  local backdrop_tab = {
-    bgFile = "Interface\\AddOns\\oUF_Shaana\\media\\backdrop",
-    edgeFile = "Interface\\AddOns\\oUF_Shaana\\media\\backdrop_edge",
-    tile = false,
-    tileSize = 0,
-    edgeSize = 5,
-    insets = {
-      left = 5,
-      right = 5,
-      top = 5,
-      bottom = 5,
-    },
-  }
+--NOTE: most of the stuff that follows is no longer used ....
 
-
-local function gen_backdrop(f)
-    f:SetBackdrop(backdrop_tab)
-    f:SetBackdropColor(0,0,0,0.8)
-    f:SetBackdropBorderColor(0,0,0,1)
-end
 
 local function gen_hpbar(self)
     --statusbar
@@ -119,6 +99,7 @@ local function create_target_style(self)
 
 end
 main()
+
 --[[
 oUF:RegisterStyle("oUF_shaana_player", create_player_style)
 oUF:SetActiveStyle("oUF_shaana_player")

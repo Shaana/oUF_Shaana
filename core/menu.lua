@@ -1,5 +1,6 @@
 local addon, namespace = ...
 
+print("loading menu.lua in oUF_Shaana")
 local menu = {}
 namespace.menu = menu
 
