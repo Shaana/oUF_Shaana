@@ -3,6 +3,7 @@ local addon, namespace = ...
 local layout = {}
 namespace.layout = layout
 
+local pp = sCore.core.pp
 --TODO maybe create little helper functions which can be added up
 -- like for for castbar, one for buffs, one for cds, health, mana, power bars, 
 
@@ -55,29 +56,47 @@ layout["default"] = function(self, config)
     self:SetScript("OnEnter", UnitFrame_OnEnter)
     self:SetScript("OnLeave", UnitFrame_OnLeave)
 
-
+    local b = config["border_thickness"]
+    local j = 8/12
+    
 		---health bar
 		print("create_default")
+		pp.register(self)
 		
 		--this is the 'parent' frame, this is also used to target players
 		--therefor we want this as big as all bars/borders together
 		self:SetSize(config.width, config.height) --TODO make bigger
 		self:SetPoint(unpack(config.anchor))
 		
+		local bg = self:CreateTexture(nil, "BORDER")
+		bg:SetTexture(0,0,0,1)
+		bg:SetAllPoints(self)
+		
 		--Note: The parent is responsible for show/hide (childeren are hidden with parent frame)
 		--      the anchor can be a different frame!
 		--      THAT TRUE ????
 		local health_bar = CreateFrame("StatusBar", "health", self) --maybe change to UIParent
+		pp.register(health_bar)
 		health_bar:SetStatusBarTexture(config.status_bar_texture)
-		health_bar:SetHeight(config.height) --replace with pp core functions --> might be a problem though with file loading order
-		health_bar:SetWidth(config.width) --replace with pp core functions
+		health_bar:SetHeight(config.height*j - 3*b) --replace with pp core functions --> might be a problem though with file loading order
+		health_bar:SetWidth(config.width - 2*b) --replace with pp core functions
 		--health_bar:SetStatusBarColor(unpack(config.status_bar_color))
 		--health_bar:SetPoint(unpack(config.anchor))
-		health_bar:SetPoint("CENTER",0,0) --TODO anchor to self, prob topleft corner
+		health_bar:SetPoint("TOPLEFT", b, -b) --TODO anchor to self, prob topleft corner
 
-		local health_bar_bg = health_bar:CreateTexture(nil, "BACKGROUND")
-		health_bar_bg:SetTexture(config.status_bar_texture)
+    health_bar.colorClass = true
+    health_bar.colorHealth = true
+
+		--local health_bar_bg = health_bar:CreateTexture(nil, "BACKGROUND")
+		local health_bar_bg = health_bar:CreateTexture(nil, "BORDER")
+		pp.register(health_bar_bg)
+		--health_bar_bg:SetTexture(config.status_bar_texture)
+		health_bar_bg:SetTexture(0.3,0.3,0.3,1)
 		health_bar_bg:SetAllPoints(health_bar)
+		health_bar_bg:SetHorizTile(false)
+	
+    self.Health = health_bar
+		self.Health.bg = health_bar_bg
 		
 		local name = health_bar:CreateFontString(nil, "OVERLAY")
     name:SetFont("Interface\\AddOns\\oUF_Shaana\\media\\ExpresswayRg.ttf", 16, "THINOUTLINE")
@@ -89,16 +108,28 @@ layout["default"] = function(self, config)
 		
 		
 		local power_bar =  CreateFrame("StatusBar", "power", self)
+		pp.register(power_bar)
 		power_bar:SetStatusBarTexture(config.status_bar_texture)
-    power_bar:SetHeight(5)
-    power_bar:SetWidth(config.width)
-		power_bar:SetPoint("CENTER",0,-25)
+    power_bar:SetHeight(config.height*(1-j) - 3*b)
+    power_bar:SetWidth(config.width - 2*b)
+		power_bar:SetPoint("TOPLEFT",b, -(config.height*j -b))
 		
     power_bar.frequentUpdates = true
     power_bar.colorPower = true
-	
+	   
+    local power_bar_bg = power_bar:CreateTexture(nil, "BACKGROUND")
+    power_bar_bg:SetAllPoints(power_bar)
+    power_bar_bg:SetTexture(1, 1, 1, .5) 
+	   
+	   --[[
+	               0.568627450980392, -- [1]
+            0.780392156862745, -- [2]
+            0.980392156862745, -- [3]
+	   --]]
+	   
+	   
     self.Power = power_bar
-
+    self.Power.bg = power_bar_bg
     
 		--[[
 		local temp = CreateFrame("Frame", nil, UIParent)
@@ -113,9 +144,7 @@ layout["default"] = function(self, config)
 		--]]
 		
 		--health_bar.frequentUpdates = config.frequentUpdates or false --oUF option
-		health_bar.colorClass = true
-		health_bar.colorHealth = true
-		self.Health = health_bar
+
 		
 		
 		--[[
@@ -130,6 +159,42 @@ layout["default"] = function(self, config)
 		self:SetScript("OnLeave", UnitFrame_OnLeave)
 		self:RegisterForClicks("AnyUp")
 		--]]
+		
+		 -- Position and size
+    local myBar = CreateFrame('StatusBar', nil, self.Health)
+    myBar:SetPoint('TOP')
+    myBar:SetPoint('BOTTOM')
+    myBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
+    myBar:SetWidth(200)
+    
+    local otherBar = CreateFrame('StatusBar', nil, self.Health)
+    otherBar:SetPoint('TOP')
+    otherBar:SetPoint('BOTTOM')
+    otherBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
+    otherBar:SetWidth(200)
+    
+    local absorbBar = CreateFrame('StatusBar', nil, self.Health)
+    absorbBar:SetPoint('TOP')
+    absorbBar:SetPoint('BOTTOM')
+    absorbBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
+    absorbBar:SetWidth(200)
+    
+    local healAbsorbBar = CreateFrame('StatusBar', nil, self.Health)
+    healAbsorbBar:SetPoint('TOP')
+    healAbsorbBar:SetPoint('BOTTOM')
+    healAbsorbBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
+    healAbsorbBar:SetWidth(200)
+    -- Register with oUF
+    self.HealPrediction = {
+      myBar = myBar,
+      otherBar = otherBar,
+      absorbBar = absorbBar,
+      healAbsorbBar = healAbsorbBar,
+      maxOverflow = 1.3,
+      frequentUpdates = true,
+    }
+		
+		
 	end
 	
 layout["player"] = function(self, config)

@@ -2,15 +2,18 @@ local addon, namespace = ...
 
 local config = namespace.config
 local core = namespace.core
-local style = core.style --style class
+local style = namespace.class.style
+local frame = namespace.class.frame
 
 
 local function main()
-	local units = config.core.unit
+	local units = config["core"]["unit"]
 	
 	--create the styles
 	for i = 1, #units do
-		style:new(units[i]):apply()
+    local unit = units[i]
+    local s = style:new(unit, config[unit])
+    frame:new(unit, s)
 	end
 	
 	--spawn header
@@ -98,14 +101,5 @@ local function create_target_style(self)
     --self.Power.bg.multiplier = 0.3
 
 end
+
 main()
-
---[[
-oUF:RegisterStyle("oUF_shaana_player", create_player_style)
-oUF:SetActiveStyle("oUF_shaana_player")
-oUF:Spawn("player","oUF_shaana_player")
-
-oUF:RegisterStyle("oUF_shaana_target", create_target_style)
-oUF:SetActiveStyle("oUF_shaana_target")
-oUF:Spawn("target","oUF_shaana_target")
---]]

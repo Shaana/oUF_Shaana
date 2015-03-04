@@ -32,10 +32,11 @@ config["core"] = {
 --TODO make default config mandatory
 --always keep this. When no config was found for a specifif unit, we fall back to this config.
 config["default"] = {
-	["__index"] = config["core"],
+	--["__index"] = config["core"],
 	["layout"] = "default",
 	["height"] = 20, --needed field
 	["width"] = 120, --needed field
+	["border_thickness"] = 1,
 	--[""] = nil,
 	--["font"] = ,inherit
 	["background_texture"] = "Interface\\AddOns\\oUF_Shaana\\media\\armory",
